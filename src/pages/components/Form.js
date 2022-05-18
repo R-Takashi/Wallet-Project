@@ -22,12 +22,44 @@ class Form extends Component {
     return (
       <div>
         <form>
-          <select>
-            <option value="">Selecione a Moeda</option>
-            { currencies.map((currency, index) => (
-              <option key={ index } value={ currency }>{currency}</option>
-            ))}
+          <input
+            type="number"
+            data-testid="value-input"
+          />
+
+          <label htmlFor="moeda">
+            Moeda
+            <select
+              id="moeda"
+            >
+              { currencies.map((currency, index) => (
+                <option key={ index } value={ currency }>{currency}</option>
+              ))}
+            </select>
+          </label>
+
+          <select
+            data-testid="method-input"
+          >
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
           </select>
+
+          <select
+            data-testid="tag-input"
+          >
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
+          </select>
+
+          <input
+            type="text"
+            data-testid="description-input"
+          />
         </form>
       </div>
     );
