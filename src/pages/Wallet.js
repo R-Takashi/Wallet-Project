@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Form from './components/Form';
 import Header from './components/Header';
+import { fetchExpencies, removeExpenses } from '../actions';
 
 class Wallet extends React.Component {
   render() {
-    const { expenses } = this.props;
-
+    const { expenses, removeExpense } = this.props;
     return (
       <div>
         <Header />
@@ -43,7 +43,22 @@ class Wallet extends React.Component {
                   <td>{Number(currencyValue).toFixed(2)}</td>
                   <td>{total.toFixed(2)}</td>
                   <td>Real</td>
-                  <td>Editar/Excluir</td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="edit-btn"
+                    >
+                      Editar
+                    </button>
+                    /
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ () => removeExpense(expense.id) }
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>);
             })}
           </tbody>
@@ -59,6 +74,14 @@ const mapStateToProps = (state) => ({
 
 Wallet.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  removeExpense: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Wallet);
+const mapDispatchToProps = (dispatch) => ({
+
+  addExpenses: (expenses) => dispatch(fetchExpencies(expenses)),
+  removeExpense: (expense) => dispatch(removeExpenses(expense)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
