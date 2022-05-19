@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchAPI, fetchExpencies } from '../../actions';
+import { fetchAPI, fetchExpencies, editExpenciesForm } from '../../actions';
 
 class Form extends Component {
   constructor() {
@@ -54,9 +54,44 @@ class Form extends Component {
     });
   }
 
+  onEdit = (event) => {
+    event.preventDefault();
+    const { editExpense, expenseId, expenses } = this.props;
+    const { expense } = this.state;
+    const editedExpense = {
+      id: expenseId,
+      value: expense.value,
+      description: expense.description,
+      currency: expense.currency,
+      method: expense.method,
+      tag: expense.tag,
+    };
+
+    const editedList = expenses.map((expenseList) => {
+      if (expenseList.id === editedExpense.id) {
+        return {
+          id: editedExpense.id,
+          value: editedExpense.value,
+          description: editedExpense.description,
+          currency: editedExpense.currency,
+          method: editedExpense.method,
+          tag: editedExpense.tag,
+          exchangeRates: expenseList.exchangeRates,
+        };
+      }
+      return expenseList;
+    });
+
+    editExpense(editedList);
+    this.setState({
+      value: 0,
+      description: '',
+    });
+  }
+
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies } = this.props;
+    const { currencies, buttonEdit } = this.props;
     return (
       <div>
         <form>
@@ -74,6 +109,7 @@ class Form extends Component {
             <select
               id="moeda"
               name="currency"
+              data-testid="currency-input"
               value={ currency }
               onChange={ this.handleChange }
             >
@@ -116,12 +152,23 @@ class Form extends Component {
             data-testid="description-input"
           />
 
-          <button
-            type="submit"
-            onClick={ this.onSubmit }
-          >
-            Adicionar despesa
-          </button>
+          { buttonEdit ? (
+            <button
+              type="submit"
+              data-testid="edit-btn"
+              onClick={ this.onEdit }
+            >
+              Editar despesa
+            </button>
+          ) : (
+            <button
+              type="submit"
+              onClick={ this.onSubmit }
+            >
+              Adicionar despesa
+            </button>
+          )}
+
         </form>
       </div>
     );
@@ -131,19 +178,32 @@ class Form extends Component {
 const mapStateToProps = (state) => ({
 
   currencies: state.wallet.currencies,
+  buttonEdit: state.wallet.buttonEdit,
+  expenseId: state.wallet.editExpenseId,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 
   fetchCurrencies: () => dispatch(fetchAPI()),
   addExpenses: (expenses) => dispatch(fetchExpencies(expenses)),
+  editExpense: (expense) => dispatch(editExpenciesForm(expense)),
 
 });
 
 Form.propTypes = {
   fetchCurrencies: PropTypes.func.isRequired,
   addExpenses: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  buttonEdit: PropTypes.bool,
+  expenseId: PropTypes.number,
+};
+
+Form.defaultProps = {
+  expenseId: 0,
+  buttonEdit: false,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

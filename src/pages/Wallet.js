@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Form from './components/Form';
 import Header from './components/Header';
-import { fetchExpencies, removeExpenses } from '../actions';
+import { fetchExpencies, removeExpenses, editExpenses } from '../actions';
 
 class Wallet extends React.Component {
   render() {
-    const { expenses, removeExpense } = this.props;
+    const { expenses, removeExpense, editExpense } = this.props;
     return (
       <div>
         <Header />
@@ -47,6 +47,7 @@ class Wallet extends React.Component {
                     <button
                       type="button"
                       data-testid="edit-btn"
+                      onClick={ () => editExpense(expense.id) }
                     >
                       Editar
                     </button>
@@ -75,13 +76,14 @@ const mapStateToProps = (state) => ({
 Wallet.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape).isRequired,
   removeExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
 
   addExpenses: (expenses) => dispatch(fetchExpencies(expenses)),
   removeExpense: (expense) => dispatch(removeExpenses(expense)),
-
+  editExpense: (expenseId) => dispatch(editExpenses(expenseId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
