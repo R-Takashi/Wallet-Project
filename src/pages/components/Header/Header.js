@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import './Header.css';
 import PropTypes from 'prop-types';
-import wallet from '../../images/wallet.svg';
+import wallet from '../../../images/wallet.svg';
+import HeaderStyle from './styles';
 
 class Header extends Component {
   render() {
@@ -13,29 +13,20 @@ class Header extends Component {
       return acc + (expense.value * currentCurrencie[1].ask);
     }, 0);
     return (
-      <div
-        className="flex bg-sky-600 items-center
-        justify-between "
-      >
+      <HeaderStyle>
         <img
           src={ wallet }
           alt="Wallet"
-          className="w-[100px] bg-sky-600 ml-[15px]"
         />
-        <section
-          className="flex items-center mr-[15px]
-          h-[40px]"
-        >
+        <section>
           <p
+            id="email"
             data-testid="email-field"
-            className="mr-[30px] bg-white rounded-xl p-[8px]"
           >
             { email }
           </p>
 
-          <div
-            className="flex bg-white rounded-xl p-[8px]"
-          >
+          <div>
             <p
               className="mr-[10px]"
             >
@@ -46,7 +37,7 @@ class Header extends Component {
             <p data-testid="header-currency-field">BRL</p>
           </div>
         </section>
-      </div>
+      </HeaderStyle>
     );
   }
 }

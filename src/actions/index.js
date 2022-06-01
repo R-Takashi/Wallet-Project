@@ -40,9 +40,9 @@ export const removeExpenses = (id) => ({
   id,
 });
 
-export const editExpenses = (id) => ({
+export const editExpenses = (expense) => ({
   type: EDIT_EXPENSES,
-  id,
+  expense,
 });
 
 export const editExpenciesForm = (expenses) => ({

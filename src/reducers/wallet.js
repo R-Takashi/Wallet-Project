@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   currencies: [],
   expenses: [],
   buttonEdit: false,
-  editExpenseId: 0,
+  editExpense: {},
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -34,7 +34,7 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       buttonEdit: true,
-      editExpenseId: action.id,
+      editExpense: action.expense,
     };
 
   case EDIT_EXPENSES_FORM:
@@ -42,7 +42,7 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       buttonEdit: false,
       expenses: [...action.expenses],
-      editExpenseId: 0,
+      editExpense: {},
     };
   default:
     return state;

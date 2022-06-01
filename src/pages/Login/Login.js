@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveEmail } from '../actions';
-import wallet from '../images/wallet.svg';
+import { saveEmail } from '../../actions';
+import wallet from '../../images/wallet.svg';
+import { LoginDiv, LoginForm } from './styles';
 
 class Login extends React.Component {
   constructor() {
@@ -42,18 +43,11 @@ class Login extends React.Component {
   render() {
     const { email, password, isDisabled } = this.state;
     return (
-      <div
-        className="flex flex-col items-center
-        justify-center h-screen w-screen bg-sky-100"
-      >
-        <form
-          className="flex flex-col items-center bg-sky-600 h-[500px] w-[500px] rounded
-        shadow-lg shadow-sky-600/50 "
-        >
+      <LoginDiv>
+        <LoginForm>
           <img
             src={ wallet }
             alt="Wallet"
-            className="w-[300px] bg-sky-600"
           />
           <input
             name="email"
@@ -62,9 +56,6 @@ class Login extends React.Component {
             placeholder="EMAIL"
             value={ email }
             onChange={ this.handleLogin }
-            className="mt-3 px-[12px] py-[20] height-[20px]
-             rounded shadow-lg shadow-gray-600
-             outline-none"
           />
 
           <input
@@ -74,23 +65,17 @@ class Login extends React.Component {
             placeholder="SENHA"
             value={ password }
             onChange={ this.handleLogin }
-            className="mt-3 px-[12px] py-[20] height-[20px]
-             rounded shadow-lg shadow-gray-600
-             outline-none"
           />
 
           <button
             type="submit"
             disabled={ isDisabled }
             onClick={ this.onSubmit }
-            className="mt-10 px-[12px] py-[16] bg-white rounded
-            w-[150px] h-[50px] shadow-lg shadow-gray-600
-            disabled:opacity-75 disabled:text-slate-400"
           >
             Entrar
           </button>
-        </form>
-      </div>
+        </LoginForm>
+      </LoginDiv>
     );
   }
 }
